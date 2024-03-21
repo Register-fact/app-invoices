@@ -2,20 +2,21 @@ import { Button, Input, Text } from '@rneui/base'
 import { TextInput } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import useForm from '../hooks/useForm';
-import calendarApi from '../api/InvoiceApi';
+import { useAuthStore } from '../helpers/useAuthStore';
 
 export const Login = ({ navigation }) => {
     
+    const {startLogin} = useAuthStore()
+
     const { values, handleChange, resetForm } = useForm({
         email: '',
         password: '',
       });
 
       const {email, password} = values
+
     const handleLogin = async () => {
-        const res = await calendarApi.post('/login', {email, password})
-        console.log(res)
-        console.log('Form values:', email);
+       await startLogin({email, password})
         resetForm();
     }
 
